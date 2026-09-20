@@ -13,9 +13,9 @@ BASE_DIR = Path(__file__).resolve().parent
 class RestauranteApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Restaurante App - Semana 13")
-        self.root.geometry("900x560")
-        self.root.minsize(760, 480)
+        self.root.title("Restaurante App - Semana 14")
+        self.root.geometry("1080x650")
+        self.root.minsize(900, 560)
 
         self.restaurante_servicio = self._crear_servicio()
         self.vista_actual = None
@@ -24,15 +24,18 @@ class RestauranteApp:
 
     def _crear_servicio(self):
         archivo_servicio = ArchivoServicio()
+        ruta_usuarios = BASE_DIR / "datos" / "usuarios.json"
+        ruta_productos = BASE_DIR / "datos" / "productos.json"
 
-        datos_usuarios = archivo_servicio.leer_json(
-            BASE_DIR / "datos" / "usuarios.json"
-        )
-        datos_productos = archivo_servicio.leer_json(
-            BASE_DIR / "datos" / "productos.json"
-        )
+        datos_usuarios = archivo_servicio.leer_json(ruta_usuarios)
+        datos_productos = archivo_servicio.leer_json(ruta_productos)
 
-        return RestauranteServicio(datos_usuarios, datos_productos)
+        return RestauranteServicio(
+            datos_usuarios,
+            datos_productos,
+            archivo_servicio,
+            ruta_productos
+        )
 
     def _cambiar_vista(self, nueva_vista):
         if self.vista_actual is not None:
