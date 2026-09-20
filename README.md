@@ -1,68 +1,74 @@
-# Restaurante App - Semana 13
+# Restaurante App - Semana 14
 
 ## Descripción
 
-Este proyecto corresponde a la **Semana 13** de Programación Orientada a Objetos.
-El objetivo es iniciar la transición de una aplicación de restaurante basada en consola
-hacia una aplicación con **interfaz gráfica de usuario utilizando Tkinter**.
+Este proyecto corresponde a la **Semana 14** de Programación Orientada a Objetos y desarrolla el tema **Componentes y contenedores en Tkinter**.
 
-La versión implementada trabaja únicamente con **usuarios y productos**, conserva la
-lectura de datos desde archivos JSON y separa las responsabilidades entre modelos,
-servicios, interfaz gráfica y punto de entrada.
+La aplicación evoluciona la versión gráfica de la semana anterior sin reconstruir el proyecto desde cero. Se mantiene la arquitectura modular, el inicio de sesión, la consulta de usuarios y la persistencia en archivos JSON. La mejora principal se encuentra en la gestión de productos desde una interfaz organizada con formularios, botones, contenedores y una tabla de visualización.
 
 ## Estructura del proyecto
 
-```text
-restaurante_app/
-├── datos/
-│   ├── productos.json
-│   └── usuarios.json
-├── modelos/
-│   ├── __init__.py
-│   ├── producto.py
-│   └── usuario.py
-├── servicios/
-│   ├── __init__.py
-│   ├── archivo_servicio.py
-│   └── restaurante_servicio.py
-├── ui/
-│   ├── __init__.py
-│   ├── login_view.py
-│   └── main_view.py
-└── main.py
+- restaurante_app/
+  - datos/
+    - productos.json
+    - usuarios.json
+  - modelos/
+    - __init__.py
+    - producto.py
+    - usuario.py
+  - servicios/
+    - __init__.py
+    - archivo_servicio.py
+    - restaurante_servicio.py
+  - ui/
+    - __init__.py
+    - login_view.py
+    - main_view.py
+  - main.py
+- README.md
 
-README.md
-```
+## Componentes y contenedores utilizados
 
-## Responsabilidades principales
+La interfaz utiliza componentes de tkinter y ttk:
 
-- **Producto:** representa los productos disponibles en el restaurante.
-- **Usuario:** representa los usuarios usados para la simulación de acceso.
-- **ArchivoServicio:** lee los archivos JSON locales.
-- **RestauranteServicio:** transforma los datos en objetos y concentra las operaciones de validación, listado y conteo.
-- **LoginView:** muestra el formulario de acceso y solicita la validación al servicio.
-- **MainView:** muestra el panel principal, productos, usuarios y la opción de ventas identificada como pendiente.
-- **main.py:** crea una única ventana Tkinter, prepara las dependencias y controla el cambio entre LoginView y MainView.
+- Frame y LabelFrame para separar navegación, formulario y área de datos.
+- Label para títulos, mensajes e información.
+- Entry para ingresar los datos de productos y las credenciales.
+- Button con command= para ejecutar las acciones.
+- Treeview para presentar productos y usuarios en forma de tabla.
+- Scrollbar para facilitar la visualización del listado de productos.
+- Los gestores de geometría grid() y pack() para organizar los componentes.
 
-## Flujo de la aplicación
+## Mejoras realizadas en la Semana 14
 
-```text
-Inicio
-  ↓
-main.py carga JSON y prepara los servicios
-  ↓
-LoginView
-  ↓
-Validación mediante RestauranteServicio
-  ↓
-MainView
-  ↓
-Productos | Usuarios | Ventas (pendiente)
-  ↓
-Cerrar sesión
-  ↓
-LoginView
-```
+- Se conserva el inicio de sesión gráfico.
+- Se reorganiza la ventana principal mediante contenedores.
+- Se mantiene una sección independiente para consultar usuarios.
+- Se incorpora un formulario completo para gestionar productos.
+- La tabla de productos se actualiza después de registrar, actualizar o eliminar.
+- Las reglas y validaciones permanecen en RestauranteServicio.
+- La lectura y escritura de JSON se mantiene en ArchivoServicio.
+- No se utiliza edición directa de la tabla ni manejo avanzado de eventos.
+
+## Operaciones de productos
+
+Desde la sección **Productos** se pueden realizar las siguientes acciones:
+
+1. **Registrar:** crea un producto nuevo si los datos son válidos y el ID no existe.
+2. **Cargar / Consultar:** busca un producto por su ID y carga sus datos en el formulario.
+3. **Actualizar:** modifica el producto identificado por el ID.
+4. **Eliminar:** elimina el producto identificado por el ID.
+5. **Limpiar formulario:** vacía los campos para una nueva operación.
+
+Las validaciones controlan que el ID y la cantidad sean enteros válidos, que el precio sea numérico, que los valores no sean negativos y que nombre y categoría no estén vacíos.
+
+## Persistencia
+
+Los productos se almacenan en restaurante_app/datos/productos.json.
+
+RestauranteServicio procesa las operaciones del dominio y solicita a ArchivoServicio guardar los cambios. De esta forma, la interfaz no lee ni escribe directamente el archivo JSON.
+
+Los cambios realizados desde la aplicación se conservan al cerrar y volver a ejecutar el programa.
 
 ## Credenciales de prueba
 
@@ -75,41 +81,21 @@ LoginView
 ## Requisitos
 
 - Python 3.10 o superior recomendado.
-- Tkinter (incluido normalmente con Python en Windows).
-
-No se necesitan librerías externas.
+- Tkinter, incluido normalmente con Python en Windows.
+- No se requieren librerías externas.
 
 ## Ejecución
 
-1. Abra una terminal dentro de la carpeta del proyecto.
-2. Ingrese a la carpeta `restaurante_app`.
-3. Ejecute:
+1. Clone o descargue este repositorio.
+2. Abra una terminal en la carpeta del proyecto.
+3. Ingrese a la carpeta restaurante_app.
+4. Ejecute: python main.py
+5. En Windows también puede utilizar: py main.py
 
-```bash
-python main.py
-```
+## Flujo general
 
-En Windows también puede utilizar:
+Inicio de la aplicación → LoginView → validación mediante RestauranteServicio → MainView → Productos o Usuarios → acciones de productos → RestauranteServicio → ArchivoServicio → productos.json → actualización de la interfaz.
 
-```bash
-py main.py
-```
+## Alcance académico
 
-## Funcionalidades implementadas
-
-- Inicio de sesión gráfico.
-- Validación de campos vacíos.
-- Mensaje para credenciales incorrectas.
-- Validación de acceso mediante `RestauranteServicio`.
-- Visualización de productos cargados desde `productos.json`.
-- Visualización de usuarios cargados desde `usuarios.json`.
-- Conteo de productos y usuarios.
-- Opción de ventas marcada como funcionalidad pendiente.
-- Cierre de sesión sin abrir una segunda ventana.
-- Una sola instancia de `Tk()` y un solo `mainloop()`.
-
-## Observación
-
-Esta versión es una base académica simplificada. No implementa autenticación segura,
-bases de datos, ventas completas ni formularios avanzados, ya que esos elementos no
-forman parte de los requisitos de la Semana 13.
+Esta versión está enfocada en **componentes y contenedores de Tkinter**. No implementa bases de datos, autenticación real, edición directa de tablas ni eventos avanzados de teclado, mouse o doble clic.
